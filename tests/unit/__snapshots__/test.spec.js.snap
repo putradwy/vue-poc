@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Movielist.vue components should render 1`] = `
+<div class="movie-list">
+  <div class="list-container">
+    <ul>
+      <ol class="active" id="item-1">movie 1</ol>
+      <ol class="" id="item-2">movie 2</ol>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`Movielist.vue should movieList handle onClick 1`] = `
+<div class="movie-list">
+  <div class="list-container">
+    <ul>
+      <ol class="" id="item-1">movie 1</ol>
+      <ol class="active" id="item-2">movie 2</ol>
+    </ul>
+  </div>
+</div>
+`;
+
+exports[`Moviepreview.vue components should render 1`] = `
+<div class="movie-preview-container">
+  <div class="preview-image"><img src="Movie image"></div>
+  <h3 class="preview-title">Movie title</h3>
+  <div class="preview-description">Movie Descrtiption</div>
+</div>
+`;
