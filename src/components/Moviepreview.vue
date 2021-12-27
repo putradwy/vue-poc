@@ -1,21 +1,21 @@
 <template>
     <div class="movie-preview-container">
         <div class="preview-image">
-            <img :src="image">
+            <img :src="preview.image">
         </div>
-        <h3 class="preview-title">{{ title }}</h3>
-        <div class="preview-description"> {{ description }}</div>
+        <h3 class="preview-title">{{ preview.title }}</h3>
+        <div class="preview-description"> {{ preview.desc }}</div>
     </div>
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
     name: "MoviePreview",
-    props: {
-        image: String,
-        title: String,
-        description: String
-    },
+    computed: mapState({
+        preview: state => state.movielist.preview,
+    }),
 }
 </script>
 
