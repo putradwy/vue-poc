@@ -8,9 +8,11 @@
 <script>
 import MovieList from "@/components/Movielist.vue"
 import MoviePreview from "@/components/Moviepreview.vue"
+import movieMixin from '@/mixins/movie.js'
 
 export default {
     name: "Home Page",
+    mixins: [movieMixin],
     components: {
         MovieList,
         MoviePreview
@@ -19,12 +21,7 @@ export default {
         return {
             preview: ""
         }
-    },
-    methods: {
-    updatePreview(data) {
-      this.preview = data;
-    },
-  }
+    }
 }
 </script>
 

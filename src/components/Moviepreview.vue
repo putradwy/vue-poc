@@ -3,7 +3,7 @@
         <div class="preview-image">
             <img :src="preview.image">
         </div>
-        <h3 class="preview-title">{{ preview.title }}</h3>
+        <h3 class="preview-title">{{ title }}</h3>
         <div class="preview-description"> {{ preview.desc }}</div>
     </div>
 </template>
@@ -15,6 +15,10 @@ export default {
     name: "MoviePreview",
     computed: mapState({
         preview: state => state.movielist.preview,
+        //filter
+        title() {
+            return this.preview.title.toUpperCase()
+        }
     }),
 }
 </script>
@@ -27,10 +31,6 @@ export default {
 
 .preview-image {
     padding: 70px 0 0 0;
-}
-
-.preview-title,
-.preview-description {
 }
 
 .preview-image img {

@@ -10,9 +10,11 @@
 
 <script>
 import { mapState } from 'vuex'
+import movieMixin from '@/mixins/movie.js'
 
 export default {
     name: "MovieList",
+    mixins: [movieMixin],
     computed: mapState({
         lists: state => state.movielist.lists,
         preview: state => state.movielist.preview,
@@ -21,16 +23,7 @@ export default {
     created() {
         this.$store.dispatch('movielist/latestMovie');
         this.emitToParent();
-    },
-    methods: {
-        selectedMovies(data) {
-            this.$store.dispatch('movielist/selectedMovies', data);
-            this.emitToParent();
-        },
-        emitToParent: function() {
-            this.$emit("setDataToPreview", this.preview);
-        },
-    },
+    }
 }
 </script>
 
