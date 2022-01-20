@@ -22,6 +22,7 @@
 import { mapState } from 'vuex'
 
 export default {
+    name: "MovieList",
     methods: {
         selectedMovies(data) {
             this.$store.dispatch('movielist/selectedMovies', data);
