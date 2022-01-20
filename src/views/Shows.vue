@@ -2,7 +2,7 @@
 <v-sheet>
   <v-expand-transition>
       <v-sheet
-        v-if="model != null"
+        v-if="model != null || initial != null"
         height="550"
         tile
       >
@@ -13,24 +13,24 @@
         >
         <div class="title-container">
           <h1>
-            {{ model.title }}
+            {{ model.title || initial.title }}
           </h1>
         </div>
         <div class="desc-container">
           <label>
-            {{ model.overview }}
+            {{ model.overview || initial.overview}}
           </label>
         </div>
         <div class="rating-container">
-          <label :class="getRating(model.vote_average)">
-            Rating : {{ model.vote_average }} ({{model.vote_count}})
+          <label :class="getRating(model.vote_average || initial.vote_average)">
+            Rating : {{ model.vote_average || initial.vote_average }} ({{model.vote_count || initial.vote_count}})
           </label>
         </div>
         <div class="backdrop-img-container">
           <div class="overlay"></div>
           <img class="backdrop-img"
               position="initial"
-              :src="getImgPath(model.backdrop_path)"
+              :src="getImgPath(model.backdrop_path || initial.backdrop_path)"
           >
         </div>
         </v-row>
@@ -81,12 +81,13 @@ import { mapState } from 'vuex'
 export default {
   name: "shows",
   data: () => ({
-    model: 0,
+    model: "",
   }),
   computed: {
     ...mapState({
       lists: state => state.movielist.lists,
-    })
+      initial: state => state.movielist.lists[0]
+      })
   },
   created() {
     this.$store.dispatch('movielist/latestMovie');
@@ -97,15 +98,13 @@ export default {
     },
     toggleCard(data) {
       this.model = data
+      this.initial = ""
     },
     getRating(rate) {
       if (rate < 6) return 'bad-rate'
       else if (rate < 7) return 'avg-rate'
       else return 'good-rate'
     }
-  },
-  mounted() {
-    this.model = this.lists[0]
   },
 }
 </script>

@@ -56,9 +56,9 @@ export default {
     name: "Header",
     data: () => ({
     tabs: [
-        { id: 1, name: "Home", path: "/" },
-        { id: 2, name: "Tv Shows", path: "/shows" },
-        { id: 3, name: "Movies", path: "/movies" },
+        // { id: 1, name: "Home", path: "/" },
+        { id: 2, name: "Movies", path: "/" },
+        { id: 3, name: "Movie Table", path: "/movies" },
         { id: 4, name: "Upcoming", path: "/upcoming" },
       ]
   }),
