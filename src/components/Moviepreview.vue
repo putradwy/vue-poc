@@ -17,10 +17,10 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import Vuex from 'vuex'
 export default {
     name: "moviePreview",
-    computed: mapState({
+    computed: Vuex.mapState({
         preview: state => state.movielist.preview,
     }),
 }

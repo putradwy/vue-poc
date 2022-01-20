@@ -19,7 +19,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import Vuex from 'vuex'
 
 export default {
     name: "movieList",
@@ -33,7 +33,7 @@ export default {
         },
     },
     computed: {
-        ...mapState({
+        ...Vuex.mapState({
             lists: state => state.movielist.lists,
             preview: state => state.movielist.preview,
             value: state => state.movielist.value
