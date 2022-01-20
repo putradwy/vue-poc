@@ -1,19 +1,19 @@
 <template>
   <v-container fluid="false" class="home-container">
-      <movieList :lists="list" @setDataToPreview="updatePreview"/>
-      <moviePreview :preview="preview"/>
+      <!-- <movieList :lists="list" @setDataToPreview="updatePreview"/> -->
+      <!-- <moviePreview :preview="preview"/> -->
   </v-container>
 </template>
 
 <script>
-import movieList from "@/components/MovieList.vue"
-import moviePreview from "@/components/MoviePreview.vue"
+// import movieList from "@/components/MovieList.vue"
+// import moviePreview from "@/components/MoviePreview.vue"
 
 export default {
   name: 'Home',
   components: {
-    movieList,
-    moviePreview
+    // movieList,
+    // moviePreview
   },
   data() {
       return {
