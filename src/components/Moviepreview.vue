@@ -19,7 +19,7 @@
 <script>
 import { mapState } from 'vuex'
 export default {
-    name: "MoviePreview",
+    name: "moviePreview",
     computed: mapState({
         preview: state => state.movielist.preview,
     }),

@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import vheader from '../src/components/Header.vue'
+import vheader from '@/components/Header.vue'
 
 export default {
   name: 'App',
