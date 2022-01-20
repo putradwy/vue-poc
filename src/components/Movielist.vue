@@ -1,84 +1,56 @@
 <template>
-    <div class="movie-list">
-        <div class="list-container">
-            <ul>
-                <ol v-on:click="onClick(item)"  v-for="(item, index) in lists" :key="index" :class="{'active': item.id === value?.id}" :id="'item-' + item.id">{{ item.title }}</ol>
-            </ul>
-        </div>
-    </div>
+    <v-col cols="2">
+    <v-sheet rounded="lg">
+        <v-list color="red" max-height="100vh" class="list-container">
+        <v-list-item
+            v-for="item in lists"
+            :key="item.id"
+            :class="{'active': item.id === value.id}"
+            @click="selectedMovies(item)">
+            <v-list-item-content>
+            <v-list-item-title>
+                {{ item.title }}
+            </v-list-item-title>
+            </v-list-item-content>
+        </v-list-item>
+        </v-list>
+    </v-sheet>
+    </v-col>
 </template>
 
 <script>
-import axios from "axios";
+import { mapState } from 'vuex'
 
 export default {
-    name: "MovieList",
-    data() {
-        return {
-        lists: [],
-        preview: {
-            image: "",
-            title: "",
-            desc: ""
-        },
-        value: {
-            id: ""
-            }
-        }
-    },
-    mounted() {
-        axios
-        .get("https://api.themoviedb.org/3/discover/movie?api_key=58817b1d581d4e9595c92a28c167872f&language=en-US&sort_by=popularity.desc")
-        .then(response => {
-            this.lists = response.data.results
-            this.preview.image = "https://image.tmdb.org/t/p/w780"+response.data.results[0].poster_path
-            this.preview.title = response.data.results[0].title
-            this.preview.desc = response.data.results[0].overview
-            this.value.id = response.data.results[0].id
-            this.emitToParent();
-        })
-    },
     methods: {
-        onClick: function(data) {
-            this.preview.image = "https://image.tmdb.org/t/p/w780"+data.poster_path
-            this.preview.title = data.title
-            this.preview.desc = data.overview
-            this.value.id = data.id
+        selectedMovies(data) {
+            this.$store.dispatch('movielist/selectedMovies', data);
             this.emitToParent();
         },
         emitToParent: function() {
             this.$emit("setDataToPreview", this.preview);
-        }
+        },
     },
+    computed: {
+        ...mapState({
+            lists: state => state.movielist.lists,
+            preview: state => state.movielist.preview,
+            value: state => state.movielist.value
+        })
+    },
+    created() {
+        this.$store.dispatch('movielist/latestMovie');
+        this.emitToParent();
+    }
 }
 </script>
 
-<style>
-.movie-list {
-    width: 25%;
-    background-color: maroon;
-    color: white;
-    height: inherit;
-    overflow: scroll;
-}
-.movie-list ul {
-    padding: 0;
-}
-
-.movie-list ul ol {
-    padding: 10px 0 10px 0;
-    cursor: pointer;
-}
-
-.movie-list ul ol:hover {
-    background: grey;
-}
-
-.movie-list ul ol.active {
+<style scoped>
+.active {
     background: black;
+    color: white!important;
 }
-
 .list-container {
-    height: inherit;
+    overflow-y: scroll;
 }
 </style>

@@ -1,41 +1,38 @@
 <template>
-    <div class="movie-preview-container">
-        <div class="preview-image">
-            <img :src="image">
-        </div>
-        <h3 class="preview-title">{{ title }}</h3>
-        <div class="preview-description"> {{ description }}</div>
-    </div>
+    <v-col>
+        <v-sheet
+            class="preview-container"
+            height="75%"
+            rounded="lg"
+        >
+            <v-img class="preview-img"
+            width="50%"
+            position="initial"
+            :src="preview.image"
+            ></v-img>
+            <h1>{{ preview.title }}</h1>
+            <span>{{ preview.desc }}</span>
+        </v-sheet>
+    </v-col>
 </template>
 
 <script>
+import { mapState } from 'vuex'
 export default {
-    name: "MoviePreview",
-    props: {
-        image: String,
-        title: String,
-        description: String
-    },
+    computed: mapState({
+        preview: state => state.movielist.preview,
+    }),
 }
 </script>
 
-<style>
-.movie-preview-container {
-    width: 75%;
-    height: auto;
+<style scoped>
+.col {
+    flex-grow: 0;
 }
-
-.preview-image {
-    padding: 70px 0 0 0;
-}
-
-.preview-title,
-.preview-description {
-}
-
-.preview-image img {
-    height: 60vh;
-    border-radius: 2%;
-    box-shadow: 10px 10px gainsboro;
+.preview-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 50px;
 }
 </style>

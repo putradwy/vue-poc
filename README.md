@@ -1,4 +1,4 @@
-# vue-js-poc
+# vuetify-poc
 
 ## Project setup
 ```
