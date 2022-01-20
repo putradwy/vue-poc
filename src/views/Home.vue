@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import MovieList from '..MovieList.vue'
-import MoviePreview from '..MoviePreview.vue'
+import MovieList from '../components/MovieList.vue'
+import MoviePreview from '../components/MoviePreview.vue'
 export default {
   name: 'Home',
   components: {
