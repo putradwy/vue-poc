@@ -16,3 +16,20 @@ export const queryPageEndpoint =
     });
     return data;
   };
+export const queryEndpoint =
+  (endpoint, defaultOptions) =>
+  async (value = {}) => {
+    const { options = {}, ...args } = value;
+    // Deal with dynamic endpoints. Ex: /movie/{movie_id}/images
+    const finalEndpoint =
+      typeof endpoint === "function"
+        ? endpoint({ options, ...args })
+        : endpoint;
+
+    const { data } = await instance.get(finalEndpoint, {
+      ...defaultOptions,
+      ...options,
+    });
+
+    return data;
+};

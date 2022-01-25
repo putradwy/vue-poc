@@ -6,11 +6,32 @@
         height="550"
         tile
       >
+      <div class="backdrop-img-container">
+          <div class="overlay"></div>
+          <img class="backdrop-img"
+              position="initial"
+              :src="getImgPath(model.backdrop_path || initial.backdrop_path)"
+          >
+        </div>
         <v-row
-          class="fill-height"
-          align="center"
-          justify="center"
+          class="left-panel"
         >
+        <div class="rating-container">
+          <label :class="getRating(model.vote_average || initial.vote_average)">
+            Rating : {{ model.vote_average || initial.vote_average }} ({{model.vote_count || initial.vote_count}})
+          </label>
+          <v-rating
+            class="start-rating"
+            background-color="orange lighten-3"
+            color="orange"
+            small
+            half-increments
+            length="5"
+            readonly
+            size="64"
+            :value="model.vote_average / 2 || initial.vote_average / 2"
+          ></v-rating>
+        </div>
         <div class="title-container">
           <h1>
             {{ model.title || initial.title }}
@@ -21,17 +42,19 @@
             {{ model.overview || initial.overview}}
           </label>
         </div>
-        <div class="rating-container">
-          <label :class="getRating(model.vote_average || initial.vote_average)">
-            Rating : {{ model.vote_average || initial.vote_average }} ({{model.vote_count || initial.vote_count}})
-          </label>
+        <div class="cast-container">
+          <h2>Cast :</h2>
+          <Cast />
+          {{ cast }}
         </div>
-        <div class="backdrop-img-container">
-          <div class="overlay"></div>
-          <img class="backdrop-img"
-              position="initial"
-              :src="getImgPath(model.backdrop_path || initial.backdrop_path)"
-          >
+        </v-row>
+        <v-row
+        class="fill-height right-panel"
+        >
+          <div class="video-container">
+          <section>
+            <iframe width="620" height="365" :src="getTrailer(trailer)" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+          </section>
         </div>
         </v-row>
       </v-sheet>
@@ -78,25 +101,36 @@
 
 <script>
 import { mapState } from 'vuex'
+import find from 'lodash/find'
+import Cast from '@/components/Cast.vue'
+
 export default {
   name: "shows",
   data: () => ({
     model: "",
   }),
+  components: {
+    Cast
+  },
   computed: {
     ...mapState({
       lists: state => state.movielist.lists,
-      initial: state => state.movielist.lists[0]
-      })
+      trailer: state => state.movielist.trailer,
+      initial: state => state.movielist.lists[0],
+    })
   },
   created() {
     this.$store.dispatch('movielist/latestMovie');
+    this.$store.dispatch('movielist/getTrailer', this.initial);
+    this.$store.dispatch('movielist/getCast', this.initial);
   },
   methods: {
     getImgPath(path) {
       return "https://image.tmdb.org/t/p/w1280"+path
     },
     toggleCard(data) {
+      this.$store.dispatch('movielist/getTrailer', data);
+      this.$store.dispatch('movielist/getCast', data);
       this.model = data
       this.initial = ""
     },
@@ -104,6 +138,11 @@ export default {
       if (rate < 6) return 'bad-rate'
       else if (rate < 7) return 'avg-rate'
       else return 'good-rate'
+    },
+    getTrailer(data) {
+      const trailer = find(data, {"type": "Trailer"})
+      const url = `https://www.youtube.com/embed/${trailer?.key}`
+      return url
     }
   },
 }
@@ -128,7 +167,6 @@ export default {
   z-index: 1;
 }
 .title-container {
-  position: absolute;
   color: white;
   z-index: 5;
   left: 76px;
@@ -136,7 +174,6 @@ export default {
 }
 
 .desc-container {
-  position: absolute;
   color: white;
   z-index: 5;
   left: 76px;
@@ -145,12 +182,41 @@ export default {
 }
 
 .rating-container {
-  position: absolute;
   color: white;
   z-index: 5;
   left: 76px;
   top: 130px;
   width: 50%;
+}
+
+.cast-container {
+  color: white;
+  z-index: 5;
+  left: 76px;
+  top: 270px;
+  height: 250px;
+}
+
+.left-panel {
+  position: absolute;
+  top: 67px;
+  z-index: 1;
+  left: 89px;
+  display: block;
+}
+
+.right-panel {
+  position: absolute;
+  color: white;
+  z-index: 5;
+  top: 130px;
+  width: 45%;
+  right: 0;
+  height: auto;
+}
+
+.start-rating {
+  margin-left: -9px;
 }
 
 .title-container h1 {

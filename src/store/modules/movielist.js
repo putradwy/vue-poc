@@ -1,4 +1,4 @@
-import { getLatestMovies } from '../../services/movie'
+import { getLatestMovies, getMovieTrailer ,getMovieCast } from '../../services/movie'
 
 // initial state
 const state = () => ({
@@ -6,8 +6,10 @@ const state = () => ({
     preview: {
         image: "",
         title: "",
-        desc: ""
+        desc: "",
     },
+    trailer: "",
+    cast: "",
     value: {
         id: ""
     }
@@ -20,10 +22,24 @@ const getters = {}
 const actions = {
   async latestMovie ({ commit }) {
     const movieList = await getLatestMovies()
+    const movieTrailer = await getMovieTrailer({movieId:movieList.results[0].id})
+    const cast = await getMovieCast({movieId:movieList.results[0].id})
+
+    //for initial data
+    commit('setCast', cast.cast)
+    commit('setTrailer', movieTrailer.results)
     commit('setMovieList', movieList.results)
   },
   selectedMovies ({ commit }, data) {
     commit('setSelectedMovie', data)
+  },
+  async getTrailer ({ commit }, data) {
+    const movieTrailer = await getMovieTrailer({movieId:data.id})
+    commit('setTrailer', movieTrailer.results)
+  },
+  async getCast ({ commit }, data) {
+    const cast = await getMovieCast({movieId:data.id})
+    commit('setCast', cast.cast)
   }
 }
 
@@ -41,6 +57,12 @@ const mutations = {
         state.preview.title = data.title
         state.preview.desc = data.overview
         state.value.id = data.id
+    },
+    setTrailer (state, data) {
+      state.trailer = data
+    },
+    setCast (state, data) {
+      state.cast = data
     }
 }
 
