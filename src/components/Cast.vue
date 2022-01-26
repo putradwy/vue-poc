@@ -1,10 +1,6 @@
 <template>
     <div class="main-card-container">
         <div v-for="item in getCastActingList(cast)" :key="item" class="card-cast">
-            <!-- <img class="backdrop-img"
-                position="initial"
-                :src="item.profile_path | profileImg()"
-            > -->
             <v-card
                 class="cast-card"
                 max-width="100"

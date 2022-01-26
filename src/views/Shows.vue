@@ -163,6 +163,11 @@ export default {
 .backdrop-img-container {
   width: 100%;
 }
+.backdrop-img-container {
+  position: absolute;
+  top: -70px;
+}
+
 .slide-grp {
   z-index: 1;
 }

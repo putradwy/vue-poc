@@ -8,6 +8,13 @@ export const getLatestMovies = queryPageEndpoint("/discover/movie", {
     },
 });
 
+export const getUpcomingMovies = queryPageEndpoint("/movie/upcoming", {
+  params: {
+    region: "ID"
+  },
+});
+
+
 export const getMovieTrailer = queryEndpoint(
   ({ movieId }) => `/movie/${movieId}/videos`
 );

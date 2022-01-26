@@ -1,4 +1,4 @@
-import { getLatestMovies, getMovieTrailer ,getMovieCast } from '../../services/movie'
+import { getLatestMovies, getMovieTrailer ,getMovieCast, getUpcomingMovies } from '../../services/movie'
 
 // initial state
 const state = () => ({
@@ -29,6 +29,10 @@ const actions = {
     commit('setCast', cast.cast)
     commit('setTrailer', movieTrailer.results)
     commit('setMovieList', movieList.results)
+  },
+  async upcomingMovies({ commit }) {
+    const upcoming = await getUpcomingMovies()
+    commit('setMovieList', upcoming.results)
   },
   selectedMovies ({ commit }, data) {
     commit('setSelectedMovie', data)
